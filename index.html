@@ -8,6 +8,8 @@
 <body>
     <div id="app">
         <display-input></display-input>
+        <display-input></display-input>
+        <display-input></display-input>
     </div>
 
     <template id="first-template">
@@ -15,13 +17,6 @@
             <input v-model="firstInput" placeholder="First Input">
             <p>First Output: {{ firstInput }}</p>
             <hr>
-
-            <input v-model="secondInput" placeholder="Second Input">
-            <p>Second Output: {{ secondInput }}</p>
-            <hr>
-
-            <input v-model="thirdInput" placeholder="Third Input">
-            <p>Third Output: {{ thirdInput }}</p>
         </div>
     </template>
 
@@ -32,8 +27,6 @@
             data: function() {
                 return {
                     firstInput: '',
-                    secondInput: '',
-                    thirdInput: '',
                 }
             }
         })

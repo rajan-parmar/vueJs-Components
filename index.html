@@ -7,23 +7,22 @@
 </head>
 <body>
     <div id="app">
-        <display-input></display-input>
-        <display-input></display-input>
-        <display-input></display-input>
+        <display-input text="First Input" output-name="First Output"></display-input>
+        <display-input text="Second Input" output-name="Second Output"></display-input>
+        <display-input text="Third Input" output-name="Third Output"></display-input>
     </div>
-
-    <template id="first-template">
-        <div>
-            <input v-model="firstInput" placeholder="First Input">
-            <p>First Output: {{ firstInput }}</p>
-            <hr>
-        </div>
-    </template>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         Vue.component('display-input', {
-            template: '#first-template',
+            props:['text', 'outputName'],
+            template: `
+                <div>
+                    <input v-model="firstInput" :placeholder="text">
+                    <p>{{ outputName }} : {{ firstInput }}</p>
+                    <hr>
+                </div>
+            `,
             data: function() {
                 return {
                     firstInput: '',

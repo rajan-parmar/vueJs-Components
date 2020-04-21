@@ -7,9 +7,11 @@
 </head>
 <body>
     <div id="app">
-        <display-input text="First Input" output-name="First Output"></display-input>
-        <display-input text="Second Input" output-name="Second Output"></display-input>
-        <display-input text="Third Input" output-name="Third Output"></display-input>
+        <display-input text="First Input" output-name="First Output" v-on:display="filled += 1"></display-input>
+        <display-input text="Second Input" output-name="Second Output" v-on:display="filled += 1"></display-input>
+        <display-input text="Third Input" output-name="Third Output" v-on:display="filled += 1"></display-input>
+        <p>Filled: {{ filled }}</p>
+        <p>Empty: {{ empty}}</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -18,7 +20,7 @@
             props:['text', 'outputName'],
             template: `
                 <div>
-                    <input v-model="firstInput" :placeholder="text">
+                    <input v-model="firstInput" placeholder="text" v-on:change="$emit('display')">
                     <p>{{ outputName }} : {{ firstInput }}</p>
                     <hr>
                 </div>
@@ -31,6 +33,14 @@
         })
         new Vue({
             el: '#app',
+            data: {
+                filled: 0
+            },
+            computed: {
+                empty() {
+                    return 3 - this.filled;
+                }
+            }
         });
     </script>
 </body>

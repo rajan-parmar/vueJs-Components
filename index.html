@@ -7,40 +7,49 @@
 </head>
 <body>
     <div id="app">
-        <display-input text="First Input" output-name="First Output" v-on:display="filled += 1"></display-input>
-        <display-input text="Second Input" output-name="Second Output" v-on:display="filled += 1"></display-input>
-        <display-input text="Third Input" output-name="Third Output" v-on:display="filled += 1"></display-input>
-        <p>Filled: {{ filled }}</p>
-        <p>Empty: {{ empty}}</p>
+        <display-input text="First Input" output-name="First Output" class="verify-value" @value-input="countInputValue">
+        </display-input>
+
+        <display-input text="Second Input" output-name="Second Output" class="verify-value" @value-input="countInputValue">
+        </display-input>
+
+        <display-input text="Third Input" output-name="Third Output" class="verify-value" @value-input="countInputValue">
+        </display-input>
+        <p>Input Filled: {{ filled.length }}</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         Vue.component('display-input', {
-            props:['text', 'outputName'],
+            props:['text', 'outputName', 'firstInput'],
             template: `
                 <div>
-                    <input v-model="firstInput" placeholder="text" v-on:change="$emit('display')">
+                    <input :placeholder="text" v-on:change="valueCount">
                     <p>{{ outputName }} : {{ firstInput }}</p>
                     <hr>
                 </div>
             `,
             data: function() {
                 return {
-                    firstInput: '',
+                }
+            },
+            methods: {
+                valueCount() {
+                    this.$emit('value-input', 1);
                 }
             }
         })
         new Vue({
             el: '#app',
             data: {
-                filled: 0
+                filled: [],
+                firstInput: ''
             },
-            computed: {
-                empty() {
-                    return 3 - this.filled;
+            methods: {
+                countInputValue(eventValue) {
+                    this.filled.push(eventValue);
                 }
-            }
+            },
         });
     </script>
 </body>

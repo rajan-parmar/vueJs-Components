@@ -16,26 +16,32 @@
         <display-input text="Third Input" output-name="Third Output" class="verify-value" @value-input="countInputValue">
         </display-input>
         <p>Input Filled: {{ filled.length }}</p>
+        <p>Input Empty: {{ emptyInput }}</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         Vue.component('display-input', {
-            props:['text', 'outputName', 'firstInput'],
+            props:['text', 'outputName'],
             template: `
                 <div>
-                    <input :placeholder="text" v-on:change="valueCount">
+                    <input :placeholder="text" v-model="firstInput" v-on:change="valueCount">
                     <p>{{ outputName }} : {{ firstInput }}</p>
                     <hr>
                 </div>
             `,
             data: function() {
                 return {
+                    firstInput: ''
                 }
             },
             methods: {
-                valueCount() {
-                    this.$emit('value-input', 1);
+                valueCount(abc) {
+                    if (abc.target.value == '') {
+                        this.$emit('value-input', 0);
+                    } else {
+                        this.$emit('value-input', 1);
+                    }
                 }
             }
         })
@@ -43,13 +49,23 @@
             el: '#app',
             data: {
                 filled: [],
-                firstInput: ''
+                emptyValue: '',
             },
             methods: {
                 countInputValue(eventValue) {
-                    this.filled.push(eventValue);
+                    if (eventValue === 0) {
+                        this.filled.shift();
+                    } else {
+                        this.filled.push(eventValue);
+                    }
                 }
             },
+            computed: {
+                emptyInput() {
+                    let inputElement = document.getElementsByClassName('verify-value').length;
+                    return this.emptyValue = inputElement - this.filled.length;
+                }
+            }
         });
     </script>
 </body>

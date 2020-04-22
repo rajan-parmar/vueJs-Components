@@ -16,7 +16,7 @@
         <display-input text="Third Input" output-name="Third Output" class="verify-value" @value-input="countInputValue">
         </display-input>
         <p>Input Filled: {{ filled.length }}</p>
-        <p>Input Empty: {{ emptyInput }}</p>
+        <p>Input Empty: {{ 3 - filled.length }}</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -32,7 +32,7 @@
             `,
             data: function() {
                 return {
-                    firstInput: ''
+                    firstInput: '',
                 }
             },
             methods: {
@@ -55,17 +55,11 @@
                 countInputValue(eventValue) {
                     if (eventValue === 0) {
                         this.filled.shift();
-                    } else {
+                    } else if (eventValue === 1) {
                         this.filled.push(eventValue);
                     }
                 }
             },
-            computed: {
-                emptyInput() {
-                    let inputElement = document.getElementsByClassName('verify-value').length;
-                    return this.emptyValue = inputElement - this.filled.length;
-                }
-            }
         });
     </script>
 </body>

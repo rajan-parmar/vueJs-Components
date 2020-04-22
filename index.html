@@ -37,8 +37,8 @@
                 }
             },
             methods: {
-                valueCount(abc) {
-                    if (abc.target.value == '') {
+                valueCount(event) {
+                    if (event.target.value === '') {
                         this.storeName.shift();
                         this.$emit('value-input', 0);
                     } else {

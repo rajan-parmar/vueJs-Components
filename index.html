@@ -7,22 +7,25 @@
 </head>
 <body>
     <div id="app">
-        <display-input text="First Input" output-name="First Output" class="verify-value" @value-input="countInputValue">
+        <display-input text="First Input" output-name="First Output" @value-specified="valueInsert"
+            @value-removed="valueRemoved">
         </display-input>
 
-        <display-input text="Second Input" output-name="Second Output" class="verify-value" @value-input="countInputValue">
+        <display-input text="Second Input" output-name="Second Output" @value-specified="valueInsert"
+            @value-removed="valueRemoved">
         </display-input>
 
-        <display-input text="Third Input" output-name="Third Output" class="verify-value" @value-input="countInputValue">
+        <display-input text="Third Input" output-name="Third Output" @value-specified="valueInsert"
+            @value-removed="valueRemoved">
         </display-input>
-        <p>Input Filled: {{ filled.length }}</p>
-        <p>Input Empty: {{ 3 - filled.length }}</p>
+        <p>Input Filled: {{ filled }}</p>
+        <p>Input Empty: {{ empty }}</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         Vue.component('display-input', {
-            props:['text', 'outputName'],
+            props: ['text', 'outputName'],
             template: `
                 <div>
                     <input :placeholder="text" v-model="firstInput" v-on:change="valueCount">
@@ -37,16 +40,14 @@
                 }
             },
             methods: {
-                valueCount(event) {
+                valueCount() {
                     if (event.target.value === '') {
-                        this.storeName.shift();
-                        this.$emit('value-input', 0);
+                        this.storeName.splice(this.outputName);
+                        this.$emit('value-removed');
                     } else {
                         if (this.storeName.indexOf(this.outputName) === -1) {
                             this.storeName.push(this.outputName);
-                            this.$emit('value-input', 1);
-                        } else {
-                            this.$emit('value-input');
+                            this.$emit('value-specified');
                         }
                     }
                 }
@@ -55,18 +56,17 @@
         new Vue({
             el: '#app',
             data: {
-                filled: [],
-                emptyValue: '',
+                filled: 0,
+                empty: 3
             },
             methods: {
-                countInputValue(eventValue) {
-                    if (eventValue === 0) {
-                        this.filled.shift();
-                    } else if (eventValue === 1) {
-                        this.filled.push(eventValue);
-                    } else if (eventValue === '') {
-                        this.filled.shift();
-                    }
+                valueInsert() {
+                    this.filled++;
+                    this.empty--;
+                },
+                valueRemoved() {
+                    this.filled--;
+                    this.empty++;
                 }
             },
         });

@@ -19,7 +19,7 @@
             @value-removed="valueRemoved">
         </display-input>
         <p>Input Filled: {{ filled }}</p>
-        <p>Input Empty: {{ empty }}</p>
+        <p>Input Empty: {{ 3 -filled }}</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -36,17 +36,19 @@
             data: function() {
                 return {
                     firstInput: '',
-                    storeName: []
+                    valueSpecified: false
                 }
             },
             methods: {
                 valueCount() {
                     if (event.target.value === '') {
-                        this.storeName.splice(this.outputName);
+                        this.valueSpecified = false;
                         this.$emit('value-removed');
                     } else {
-                        if (this.storeName.indexOf(this.outputName) === -1) {
-                            this.storeName.push(this.outputName);
+                        if (this.valueSpecified === true) {
+
+                        } else {
+                            this.valueSpecified = true;
                             this.$emit('value-specified');
                         }
                     }
@@ -57,16 +59,13 @@
             el: '#app',
             data: {
                 filled: 0,
-                empty: 3
             },
             methods: {
                 valueInsert() {
                     this.filled++;
-                    this.empty--;
                 },
                 valueRemoved() {
                     this.filled--;
-                    this.empty++;
                 }
             },
         });
